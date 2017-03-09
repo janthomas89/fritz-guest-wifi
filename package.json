@@ -1,0 +1,11 @@
+{
+  "name": "fritzbox-guest-wifi",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "fritz-box": "1.0.0"
+  }
+}

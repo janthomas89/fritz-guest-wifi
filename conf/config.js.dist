@@ -1,0 +1,15 @@
+module.exports = {
+    // General FRITZ!Box settings (mandatory)
+    fritzBox: {
+        username: 'u',
+        password: 'p',
+        host: 'fritz.box' // Default: fritz.box
+    }
+
+    // Guest WiFi settings (optional)
+    guestWifi: {
+        autoDisable: true, // Default: true
+        deactivateAfter: '30', // Default: 30
+        waitForLastGuest: true // Default: true
+    }
+};
