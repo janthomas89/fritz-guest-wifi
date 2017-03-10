@@ -1,0 +1,148 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>FRITZ!Box Guest Wifi</title>
+
+    <!-- ToDo -->
+    <link rel="icon" href="../../favicon.ico">
+
+    
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            padding-top: 20px;
+            padding-bottom: 20px;
+            background-color: #eee;
+        }
+        .display-none {
+            display: none;
+        }
+        .panel {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        .form {
+            padding: 15px;
+        }
+        .form .form-heading,
+        .form .checkbox {
+            margin-bottom: 10px;
+        }
+        .form .form-control {
+            position: relative;
+            height: auto;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            padding: 10px;
+            font-size: 16px;
+        }
+    </style>
+  </head>
+
+<body>
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2><span class="glyphicon glyphicon-signal"></span> <span class="hidden-xs">FRITZ!Box</span> Guest Wifi</h2>
+            </div>
+            <div class="panel-body">
+                <form class="form">
+                    <div class="progress" id="loading">
+                        <div class="progress-bar progress-bar-striped active" style="width: 100%">
+                        </div>
+                    </div>
+                    <div class="form-group display-none text-center" id="qr-code-container">
+                        QR-Code
+                    </div>
+                    <div class="form-group display-none" id="ssid-container">
+                        <label for="ssis">SSID:</label>
+                        <input type="text" class="form-control" id="ssid" disabled value="">
+                    </div>
+                    <div class="form-group display-none" id="pw-container">
+                        <label for="pw">Password:</label>
+                        <input type="text" class="form-control" id="pw" disabled value="">
+                    </div>
+                    <button class="btn btn-lg btn-primary btn-block display-none" type="submit" id="button-enable">Enable</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="jquery.min.js"></script>
+    <script src="jquery.qrcode.min.js"></script>
+    <script>
+        $(function() {
+            var loading = $('#loading').show();
+            var qrCodeContainer = $('#qr-code-container').hide();
+            var ssidContainer = $('#ssid-container').hide();
+            var pwContainer = $('#pw-container').hide();
+            var buttonEnable = $('#button-enable').hide();
+
+            var updateUi = function(status) {
+                if (status.active) {
+                    var enc = 'WPA'; // ToDo dynamic!
+                    var qrstring = 'WIFI:S:' + escapeString(status.ssid) + ';T:' + enc + ';P:' + escapeString(status.key) + ';';
+                    /*
+                    if (hidden) {
+                        qrstring += 'H:true';
+                    }
+                    */
+                    qrstring += ';';
+                    qrCodeContainer.empty().qrcode(qrstring).show();
+                    ssidContainer.show().find('input').val(status.ssid);
+                    pwContainer.show().find('input').val(status.key);
+                    buttonEnable.hide();
+                } else {
+                    qrCodeContainer.hide();
+                    ssidContainer.hide();
+                    pwContainer.hide();
+                    buttonEnable.show();
+                }
+
+                console.log(status.ssid);
+                console.log(status.key);
+
+            };
+
+            var escapeString = function(string) {
+                var to_escape = ['\\', ';', ',', ':', '"'];
+                var hex_only = /^[0-9a-f]+$/i;
+                var output = "";
+                for (var i=0; i<string.length; i++) {
+                    if($.inArray(string[i], to_escape) != -1) {
+                        output += '\\'+string[i];
+                    }
+                    else {
+                        output += string[i];
+                    }
+                }
+                if (hex_only.test(output)) {
+                    output = '"'+output+'"';
+                }
+                return output;
+            };
+
+            $.getJSON("/status").then(function(status) {
+                loading.hide();
+                updateUi(status);
+            });
+
+            buttonEnable.on("click", function(e) {
+                e.preventDefault();
+                loading.show();
+                buttonEnable.hide();
+                
+                $.post("/enable").then(function(data) {
+                    loading.hide();
+                    updateUi(status);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,12 +1,17 @@
 module.exports = {
-    // General FRITZ!Box settings (mandatory)
+    // Express webb app settings
+    webApp: {
+        port: 3000 // Default: 3000
+    },
+
+    // General FRITZ!Box settings
     fritzBox: {
         username: 'u',
         password: 'p',
         host: 'fritz.box' // Default: fritz.box
     }
 
-    // Guest WiFi settings (optional)
+    // Guest WiFi settings
     guestWifi: {
         autoDisable: true, // Default: true
         deactivateAfter: '30', // Default: 30

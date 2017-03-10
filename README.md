@@ -3,4 +3,5 @@ Node.js web app to easily enable the FRITZ!Box guest wifi
 
 
 ## ToDo
-- Add configuration and express app!
+- Express app deploy, start, logginf, rotation?!
+- Favicon

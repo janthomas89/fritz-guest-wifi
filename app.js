@@ -1,24 +1,36 @@
 const util = require('./util');
-const crypto = require('crypto');
+const config = util.loadConfig();
 
-// Load configuration
-const configModuleName = './conf/config';
-try {
-    console.log(require.resolve(configModuleName));
-} catch(e) {
-    console.error('Cannot resolve configuration. Please provide a configuration file under ' + configModuleName + '.js');
-    process.exit(e.code);
-}
-const config = require(configModuleName);
+const webAppConfig = Object.assign({
+    port: 3000
+}, config.webApp || {});
 
+const express = require("express");
+const app = express();
+const viewBasePath = __dirname + '/views/';
 
-// Test
-(async function() {
+// Static routes
+app.use(express.static('./node_modules/bootstrap/dist'));
+app.use(express.static('./node_modules/jquery/dist'));
+app.use(express.static('./public'));
 
-    // ToDo Config += other settings
-    util.init(config.fritzBox, {});
+// Ajax routes
+app.get("/status", async function(req, res) {
+    const status = await util.getGuestWifiSettings();
+    res.json(status);
+});
+app.post("/enable", async function(req, res) {
+    const password = util.generatePassword(8);
+    const status = await util.activateGuestWifi(config.guestWifi, password);
+    res.json(status);
+});
 
-    const password = crypto.randomBytes(6).toString('hex'); // Min. 8 chars
-    await util.activateGuestWifi('test1234');
-    await util.activateGuestWifi(password);
-})();
+// Fallback route
+app.use("*", function(req, res) {
+    res.sendFile(viewBasePath + "index.html");
+});
+
+app.listen(webAppConfig.port, function() {
+    util.init(config.fritzBox);
+    console.log("FRITZ!Box guest wifi app up and running on port " + webAppConfig.port);
+});
