@@ -4,23 +4,36 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+
     <title>FRITZ!Box Guest Wifi</title>
 
-    <!-- ToDo -->
-    <link rel="icon" href="../../favicon.ico">
-
-    
-
+    <link rel="icon" type="image/png" href="/apple-touch-icon.png" />
     <link href="/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
+        html, body {
+            height: 100%;
+        }
         body {
-            padding-top: 20px;
-            padding-bottom: 20px;
+            padding-top: 70px;
+            padding-bottom: 70px;
             background-color: #eee;
+        }
+        .navbar-fixed-top {
+            border: 0;
+            background: #1d2d44;
+        }
+        .navbar-inverse .navbar-brand,
+        .navbar-inverse .navbar-nav>li>a {
+            color: #f0f0f0;
         }
         .display-none {
             display: none;
+        }
+        .container, .panel {
+            height: 100%;
         }
         .panel {
             max-width: 400px;
@@ -46,15 +59,25 @@
   </head>
 
 <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a href="/" class="navbar-brand">
+                    <span class="glyphicon glyphicon-signal avbar-logo"></span>
+                    FRITZ!Box Guest Wifi
+                </a>
+            </div>
+        </div>
+    </nav>
+
+
     <div class="container">
         <div class="panel panel-default">
-            <div class="panel-heading">
-                <h2><span class="glyphicon glyphicon-signal"></span> <span class="hidden-xs">FRITZ!Box</span> Guest Wifi</h2>
-            </div>
             <div class="panel-body">
                 <form class="form">
-                    <div class="progress" id="loading">
-                        <div class="progress-bar progress-bar-striped active" style="width: 100%">
+                    <div class="progress" id="loading" style="height: 46px;">
+                        <div class="progress-bar progress-bar-striped active" style="width: 100%; font-size: 18px; line-height: 46px;">
+                            Loading Guest Wifi Status
                         </div>
                     </div>
                     <div class="form-group display-none text-center" id="qr-code-container">
@@ -68,7 +91,7 @@
                         <label for="pw">Password:</label>
                         <input type="text" class="form-control" id="pw" disabled value="">
                     </div>
-                    <button class="btn btn-lg btn-primary btn-block display-none" type="submit" id="button-enable">Enable</button>
+                    <button class="btn btn-lg btn-success btn-block display-none" type="submit" id="button-enable">Enable Guest Wifi</button>
                 </form>
             </div>
         </div>
@@ -129,6 +152,9 @@
 
             $.getJSON("/status").then(function(status) {
                 loading.hide();
+
+                status.active = false;
+
                 updateUi(status);
             });
 
@@ -137,7 +163,7 @@
                 loading.show();
                 buttonEnable.hide();
                 
-                $.post("/enable").then(function(data) {
+                $.post("/enable").then(function(status) {
                     loading.hide();
                     updateUi(status);
                 });
