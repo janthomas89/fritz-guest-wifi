@@ -11,51 +11,7 @@
 
     <link rel="icon" type="image/png" href="/apple-touch-icon.png" />
     <link href="/css/bootstrap.min.css" rel="stylesheet">
-
-    <style>
-        html, body {
-            height: 100%;
-        }
-        body {
-            padding-top: 70px;
-            padding-bottom: 70px;
-            background-color: #eee;
-        }
-        .navbar-fixed-top {
-            border: 0;
-            background: #1d2d44;
-        }
-        .navbar-inverse .navbar-brand,
-        .navbar-inverse .navbar-nav>li>a {
-            color: #f0f0f0;
-        }
-        .display-none {
-            display: none;
-        }
-        .container, .panel {
-            height: 100%;
-        }
-        .panel {
-            max-width: 400px;
-            margin: 0 auto;
-        }
-        .form {
-            padding: 15px;
-        }
-        .form .form-heading,
-        .form .checkbox {
-            margin-bottom: 10px;
-        }
-        .form .form-control {
-            position: relative;
-            height: auto;
-            -webkit-box-sizing: border-box;
-            -moz-box-sizing: border-box;
-            box-sizing: border-box;
-            padding: 10px;
-            font-size: 16px;
-        }
-    </style>
+    <link href="/style.css" rel="stylesheet">
   </head>
 
 <body>
@@ -63,20 +19,20 @@
         <div class="container-fluid">
             <div class="navbar-header">
                 <a href="/" class="navbar-brand">
-                    <span class="glyphicon glyphicon-signal avbar-logo"></span>
+                    <span class="glyphicon glyphicon-signal"></span>
                     FRITZ!Box Guest Wifi
                 </a>
             </div>
         </div>
     </nav>
 
-
     <div class="container">
         <div class="panel panel-default">
             <div class="panel-body">
                 <form class="form">
-                    <div class="progress" id="loading" style="height: 46px;">
-                        <div class="progress-bar progress-bar-striped active" style="width: 100%; font-size: 18px; line-height: 46px;">
+                    <div class="progress" id="loading">
+                        <div class="progress-bar progress-bar-striped active">
+                            <span class="glyphicon glyphicon-stats"></span>
                             Loading Guest Wifi Status
                         </div>
                     </div>
@@ -91,7 +47,12 @@
                         <label for="pw">Password:</label>
                         <input type="text" class="form-control" id="pw" disabled value="">
                     </div>
-                    <button class="btn btn-lg btn-success btn-block display-none" type="submit" id="button-enable">Enable Guest Wifi</button>
+                    <div class="display-none" id="guest-wifi-disabled-container">
+                        <button class="btn btn-lg btn-success btn-block" type="submit" id="button-enable">
+                            <span class="glyphicon glyphicon-chevron-right"></span>
+                            Enable Guest Wifi
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -104,32 +65,28 @@
             var qrCodeContainer = $('#qr-code-container').hide();
             var ssidContainer = $('#ssid-container').hide();
             var pwContainer = $('#pw-container').hide();
-            var buttonEnable = $('#button-enable').hide();
+            var gwDisabledContainer = $('#guest-wifi-disabled-container').hide();
 
             var updateUi = function(status) {
                 if (status.active) {
-                    var enc = 'WPA'; // ToDo dynamic!
+                    var enc = 'WPA';
+                    var hidden = false;
                     var qrstring = 'WIFI:S:' + escapeString(status.ssid) + ';T:' + enc + ';P:' + escapeString(status.key) + ';';
-                    /*
                     if (hidden) {
                         qrstring += 'H:true';
                     }
-                    */
                     qrstring += ';';
+
                     qrCodeContainer.empty().qrcode(qrstring).show();
                     ssidContainer.show().find('input').val(status.ssid);
                     pwContainer.show().find('input').val(status.key);
-                    buttonEnable.hide();
+                    gwDisabledContainer.hide();
                 } else {
                     qrCodeContainer.hide();
                     ssidContainer.hide();
                     pwContainer.hide();
-                    buttonEnable.show();
+                    gwDisabledContainer.show();
                 }
-
-                console.log(status.ssid);
-                console.log(status.key);
-
             };
 
             var escapeString = function(string) {
@@ -152,17 +109,14 @@
 
             $.getJSON("/status").then(function(status) {
                 loading.hide();
-
-                status.active = false;
-
                 updateUi(status);
             });
 
-            buttonEnable.on("click", function(e) {
+            $('#button-enable').on("click", function(e) {
                 e.preventDefault();
                 loading.show();
-                buttonEnable.hide();
-                
+                gwDisabledContainer.hide();
+
                 $.post("/enable").then(function(status) {
                     loading.hide();
                     updateUi(status);
