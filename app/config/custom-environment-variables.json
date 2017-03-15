@@ -1,0 +1,15 @@
+{
+    "webApp": {
+        "port": "WEBAPP_PORT"
+    },
+    "fritzBox": {
+        "username": "FRITZBOX_USERNAME",
+        "password": "FRITZBOX_PASSWORD",
+        "host": "FRITZBOX_HOST"
+    },
+    "guestWifi": {
+        "autoDisable": "GUESTWIFI_AUTODISABLE",
+        "deactivateAfter": "GUESTWIFI_DEACTIVATEAFTER",
+        "waitForLastGuest": "GUESTWIFI_WAITFORLASTGUEST"
+    }
+}

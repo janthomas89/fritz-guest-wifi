@@ -6,8 +6,10 @@
     "start": "node app.js"
   },
   "dependencies": {
+    "config": "1",
     "fritz-box": "1.0.0",
     "express": "4",
+    "express-rate-limit": "2",
     "jquery": "3",
     "bootstrap": "3"
   }

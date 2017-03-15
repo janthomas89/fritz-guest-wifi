@@ -1,2 +1,5 @@
-node_modules
-conf/config.js
+docker-compose.override.yml
+app/node_modules
+app/config
+!app/config/custom-environment-variables.json
+!app/config/default.json

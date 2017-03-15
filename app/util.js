@@ -3,29 +3,6 @@ const crypto = require('crypto');
 
 var api;
 
-// ToDo
-var guestWifi = {
-    autoDisable: true,
-    deactivateAfter: '30',
-    waitForLastGuest: true
-};
-
-/**
- * Loads the configuration file under /conf/config.js
- * 
- * @return Object
- */
-exports.loadConfig = function() {
-    const configModuleName = './conf/config';
-    try {
-        console.log(require.resolve(configModuleName));
-    } catch(e) {
-        console.error('Cannot resolve configuration. Please provide a configuration file under /conf/config.js');
-        process.exit(e.code);
-    }
-    return require(configModuleName);
-};
-
 /**
  * 
  */
@@ -33,7 +10,7 @@ exports.init = function(box) {
     api = new FritzBoxAPI({
         username: box.username,
         password: box.password,
-        host: box.host || 'fritz.box'
+        host: box.host
     });
 };
 
@@ -49,11 +26,10 @@ exports.activateGuestWifi = async function(guestWifiConfig, password) {
 
     let guestWifiSettings = await exports.getGuestWifiSettings();
 
-    guestWifiConfig = Object.assign({
-        autoDisable: true,
-        deactivateAfter: '30',
-        waitForLastGuest: true
-    }, guestWifiConfig || {});
+    if (guestWifiSettings.active) {
+        console.log("[skip] guest wifi already active\n\n");
+        return guestWifiSettings;
+    }
 
     guestWifiSettings.autoDisable = guestWifiConfig.autoDisable;
     guestWifiSettings.deactivateAfter = guestWifiConfig.deactivateAfter;

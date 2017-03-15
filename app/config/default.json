@@ -1,0 +1,15 @@
+{
+    "webApp": {
+        "port": 3000
+    },
+    "fritzBox": {
+        "username": "",
+        "password": "",
+        "host": "fritz.box"
+    },
+    "guestWifi": {
+        "autoDisable": true,
+        "deactivateAfter": 30,
+        "waitForLastGuest": true
+    }
+}

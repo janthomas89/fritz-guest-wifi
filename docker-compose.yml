@@ -1,0 +1,14 @@
+version: '2'
+
+services:
+  web:
+    build: .
+    image: janthomas89/fritz-guest-wifi
+    container_name: fritz-guest-wifi
+    restart: unless-stopped
+    #ports:
+      #- "0.0.0.0:3000:3000"
+    #environment:
+      # FRITZBOX_USERNAME: username
+      # FRITZBOX_PASSWORD: password
+      # FRITZBOX_HOST: fritz.box
