@@ -1,4 +1,5 @@
 docker-compose.override.yml
+rpi-docker/docker-compose.override.yml
 app/node_modules
 app/config
 !app/config/custom-environment-variables.json
