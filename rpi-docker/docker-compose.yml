@@ -2,7 +2,9 @@ version: '2'
 
 services:
   web:
-    build: .
+    build:
+      context: ..
+      dockerfile: rpi-docker/Dockerfile
     image: janthomas89/fritz-guest-wifi
     container_name: fritz-guest-wifi
     restart: unless-stopped
