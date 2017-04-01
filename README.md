@@ -3,7 +3,7 @@ Node.js web app to enable the FRITZ!Box guest wifi using your smartphone, tablet
 
 Guest Wifi disabled        |  Guest Wifi enabled
 :-------------------------:|:-------------------------:
-![Guest Wifi disabled](https://raw.githubusercontent.com/janthomas89/fritz-guest-wifi/master/doc/guest-wifi-disabled.png =250x)  |  ![Guest Wifi enabled](https://raw.githubusercontent.com/janthomas89/fritz-guest-wifi/master/doc/guest-wifi-enabled.png =250x)
+![Guest Wifi disabled](https://raw.githubusercontent.com/janthomas89/fritz-guest-wifi/master/doc/guest-wifi-disabled.png)  |  ![Guest Wifi enabled](https://raw.githubusercontent.com/janthomas89/fritz-guest-wifi/master/doc/guest-wifi-enabled.png)
 
 
 ## Deployment
