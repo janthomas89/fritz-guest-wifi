@@ -19,6 +19,7 @@ app.use('/api', apiLimiter);
 app.use(express.static('./node_modules/bootstrap/dist'));
 app.use(express.static('./node_modules/jquery/dist'));
 app.use(express.static('./public'));
+app.use(express.static('./bundle'));
 
 // Ajax routes
 app.get("/api/status", async function(req, res) {
@@ -33,7 +34,7 @@ app.get("/api/status", async function(req, res) {
 app.post("/api/enable", async function(req, res) {
     try {
         const password = util.generatePassword(8);
-        const status = await util.activateGuestWifi(config.get('guestWifi'), password);
+        const status = await util.enableGuestWifi(config.get('guestWifi'), password);
         res.json(status);
     } catch (err) {
         console.log(err);

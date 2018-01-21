@@ -14,12 +14,9 @@ body {
 .navbar-inverse .navbar-nav>li>a {
     color: #f0f0f0;
 }
-.display-none {
-    display: none;
-}
 .progress {
     height: 46px;
-    margin-bottom: 0px;
+    margin: 0px;
 }
 .progress-bar {
     width: 100%;
@@ -30,7 +27,7 @@ body {
     max-width: 400px;
     margin: 0 auto;
 }
-.form {
+.panel-body {
     padding: 15px;
 }
 .form .form-heading,

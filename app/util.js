@@ -15,19 +15,19 @@ exports.init = function(box) {
 };
 
 /**
- * Activates the FRITZ!Box guest wifi using the given password.
+ * Enables the FRITZ!Box guest wifi using the given password.
  * 
  * @param guestWifiConfig The guest wifi configuration.
  * @param password The guest wifi password.
  */
-exports.activateGuestWifi = async function(guestWifiConfig, password) {
-    console.log("[start] activate guest wifi");
+exports.enableGuestWifi = async function(guestWifiConfig, password) {
+    console.log("[start] enable guest wifi");
     console.log("password:", password);
 
     let guestWifiSettings = await exports.getGuestWifiSettings();
 
     if (guestWifiSettings.active) {
-        console.log("[skip] guest wifi already active\n\n");
+        console.log("[skip] guest wifi already enabled\n\n");
         return guestWifiSettings;
     }
 

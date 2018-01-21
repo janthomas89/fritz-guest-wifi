@@ -3,6 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "webpack": "webpack --config webpack.prod.js",
+    "webpack-dev": "webpack --watch --config webpack.dev.js",
     "start": "node app.js"
   },
   "dependencies": {
@@ -10,7 +12,18 @@
     "fritz-box": "1.0.0",
     "express": "4",
     "express-rate-limit": "2",
+    "vue": "2",
+    "vuex": "3",
     "jquery": "3",
+    "jquery.qrcode": "1",
     "bootstrap": "3"
+  },
+  "devDependencies": {
+    "css-loader": "^0.28.8",
+    "file-loader": "^1.1.6",
+    "style-loader": "^0.19.1",
+    "uglifyjs-webpack-plugin": "^1.1.6",
+    "webpack": "3",
+    "webpack-merge": "^4.1.1"
   }
 }

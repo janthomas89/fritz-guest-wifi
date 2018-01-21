@@ -27,6 +27,7 @@ The images are not available at Docker Hub, so you need to build them locally fr
 ```
 cd app
 npm install
+npm run webpack
 npm start
 ```
 
