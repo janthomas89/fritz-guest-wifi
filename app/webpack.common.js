@@ -16,7 +16,7 @@ module.exports = {
             'vue': path.resolve(__dirname, 'node_modules/vue/dist/vue.esm.js'),
             'vuex:': path.resolve(__dirname, 'node_modules/vuex/dist/vuex.sm.js'),
             'jquery': path.resolve(__dirname, 'node_modules/jquery/src/jquery.js'),
-            'jquery.qrcode': path.resolve(__dirname, 'node_modules/jquery-qrcode/jquery.qrcode.min.js'),
+            'jquery.qrcode': path.resolve(__dirname, 'node_modules/jquery.qrcode/jquery.qrcode.min.js'),
         }
     },
     module: {
